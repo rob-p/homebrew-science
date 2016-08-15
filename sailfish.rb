@@ -5,6 +5,7 @@ class Sailfish < Formula
   # tag "bioinformatics"
   url "https://github.com/kingsfordgroup/sailfish/archive/v0.10.1.tar.gz"
   sha256 "a0d6d944382f2e07ffbfd0371132588e2f22bb846ecfc3d3435ff3d81b30d6c6"
+  revision 1
 
   bottle do
     sha256 "16e1cce6665ec8c6587f31e7fdf94bd5d0da0f21392efafd6b6d6464f344284d" => :el_capitan
