@@ -1,20 +1,22 @@
 class Trinity < Formula
   desc "RNA-Seq de novo assembler"
   homepage "https://trinityrnaseq.github.io"
-  bottle do
-    cellar :any
-    revision 1
-    sha256 "e4aaf5e0b7b4d39f48028bbc79c506fd6a6ade669fbae675c35e8d8ba10ca637" => :el_capitan
-    sha256 "de5074c29c65908e175ff20bce4ea8f09c6f4daa4a611cf05a34c4db48a06c4f" => :yosemite
-    sha256 "fcb67f469057ccdca350a0e41e602391417620af9c237c0cd3e2222d7bf569b7" => :mavericks
-  end
+  url "https://github.com/trinityrnaseq/trinityrnaseq/archive/v2.2.0.tar.gz"
+  sha256 "f34603e56ac76a81447dd230b31248d5890ecffee8ef264104d4f1fa7fe46c9e"
+  revision 1
+
+  head "https://github.com/trinityrnaseq/trinityrnaseq.git"
 
   # doi "10.1038/nbt.1883"
   # tag "bioinformatics"
 
-  url "https://github.com/trinityrnaseq/trinityrnaseq/archive/v2.2.0.tar.gz"
-  sha256 "f34603e56ac76a81447dd230b31248d5890ecffee8ef264104d4f1fa7fe46c9e"
-  head "https://github.com/trinityrnaseq/trinityrnaseq.git"
+  bottle do
+    cellar :any
+    sha256 "e0ede844281630b088be3dc1b0983e02aa9307a866ebdbc6320e1d596c142a70" => :el_capitan
+    sha256 "9a6653a4b288245afcf0e71c024a51a8a8325e5ac54e9252920ff021efa7db37" => :yosemite
+    sha256 "5902d884766d2bb88b252e64be063374b17a0d62274c7a26229d46a5e4576d65" => :mavericks
+    sha256 "ab62075292fa00b265ef44554ad015344cc8137a3859c661860c044bb57c699d" => :x86_64_linux
+  end
 
   depends_on "express" => :recommended
   depends_on "bowtie" => :run
@@ -30,6 +32,13 @@ class Trinity < Formula
 
   fails_with :llvm do
     cause 'error: unrecognized command line option "-std=c++0x"'
+  end
+
+  # Teach Chrysalis's Makefile that GCC 6 exists otherwise it can't find headers
+  # Reported 26 Jun 2016: https://github.com/trinityrnaseq/trinityrnaseq/pull/154
+  patch do
+    url "https://github.com/trinityrnaseq/trinityrnaseq/pull/154.patch"
+    sha256 "8166ffebdff65ec344eda08f9104f3303616b02b2db677f0a34774ab2d022850"
   end
 
   def install

@@ -1,15 +1,16 @@
 class Mfem < Formula
   desc "Free, lightweight, scalable C++ library for FEM."
   homepage "http://www.mfem.org"
-  url "http://goo.gl/xrScXn"
-  version "3.1"
-  sha256 "841ea5cf58de6fae4de0f553b0e01ebaab9cd9c67fa821e8a715666ecf18fc57"
+  url "http://goo.gl/Y9T75B"
+  version "3.2"
+  sha256 "2938c3deed4ec4f7fd5b5f5cfe656845282e86e2dcd477d292390058b7b94340"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "2febc72f32cd5d4ebe933d61a9d485c9a9754bc339d15458ad25fed24b4d02d4" => :el_capitan
-    sha256 "1cbabf97c2ec405d101a37de690ac4e2651f3735c1d8bccf02eda84b71578c7f" => :yosemite
-    sha256 "711d04ccd613bc6754c6cb45d4074e0740a0c6f89c1f1d630a1c177243abcc73" => :mavericks
+    revision 3
+    sha256 "2447f727b783d261bc4650465f4994c68b58c159f6eb97f2223ad5cb4b6585f4" => :el_capitan
+    sha256 "0a2f8112b7da2a29ead821d93d0bd1f747a5b6f202b0ad6beae7d0846518dbf6" => :yosemite
+    sha256 "f013052f81c317d2e71c8b8e359c820f2ca7e21314821145f804ec26aa222f6d" => :mavericks
   end
 
   option "with-mpi", "Build with mpi support (implies --with-hypre --with-metis)"
@@ -24,8 +25,15 @@ class Mfem < Formula
     depends_on "metis" => :optional
   end
 
+  if OS.mac?
+    depends_on "openblas" => :optional
+  else
+    depends_on "openblas"
+  end
+
   depends_on "suite-sparse" => :optional
-  depends_on "openblas" => :optional
+  depends_on "netcdf" => :optional
+  depends_on "superlu_dist" => :optional
 
   def install
     make_args = ["PREFIX=#{prefix}"]
@@ -55,12 +63,37 @@ class Mfem < Formula
 
     if build.with?("suite-sparse")
       ss_lib = "-L#{Formula["suite-sparse"].opt_lib} "
-      ss_lib += "-lumfpack -lcholmod -lcolamd -lamd -lcamd -lccolamd "
-      ss_lib += "-lsuitesparseconfig #{metis_lib} #{lapack_lib}"
+      ss_lib += "-lklu -lbtf -lumfpack -lcholmod -lcolamd -lamd -lcamd "
+      ss_lib += "-lccolamd -lsuitesparseconfig #{metis_lib} #{lapack_lib}"
       make_args += ["MFEM_USE_SUITESPARSE=YES",
                     "SUITESPARSE_DIR=#{Formula["suite-sparse"].opt_prefix}",
                     "SUITESPARSE_OPT=-I#{Formula["suite-sparse"].opt_include}",
                     "SUITESPARSE_LIB=#{ss_lib}"]
+    end
+
+    if build.with?("superlu_dist")
+      superlu_lib = "-L#{Formula["superlu_dist"].opt_lib} -lsuperlu_dist"
+      make_args += ["MFEM_USE_SUPERLU=YES",
+                    "SUPERLU_DIR=#{Formula["superlu_dist"].opt_prefix}",
+                    "SUPERLU_OPT=-I#{Formula["superlu_dist"].opt_include}",
+                    "SUPERLU_LIB=#{superlu_lib}"]
+    end
+
+    if build.with?("netcdf")
+      netcdf_lib = "-L#{Formula["netcdf"].opt_lib} -lnetcdf "
+      netcdf_lib += "-L#{Formula["hdf5"].opt_lib} -lhdf5_hl -lhdf5 "
+      if OS.mac?
+        netcdf_lib += "-L/usr/lib -lz"
+      else
+        netcdf_lib += "-L#{Formula["zlib"].opt_lib} -lz"
+      end
+      zlib_dir = OS.mac? ? "/usr" : Formula["zlib"].opt_prefix.to_s
+      make_args += ["MFEM_USE_NETCDF=YES",
+                    "NETCDF_DIR=#{Formula["netcdf"].opt_prefix}",
+                    "HDF5_DIR=#{Formula["hdf5"].opt_prefix}",
+                    "ZLIB_DIR=#{zlib_dir}",
+                    "NETCDF_OPT=-I#{Formula["netcdf"].opt_include}",
+                    "NETCDF_LIB=#{netcdf_lib}"]
     end
 
     system "make", "config", *make_args
@@ -74,13 +107,14 @@ class Mfem < Formula
     (pkgshare/"data").mkpath
     (pkgshare/"data").install Dir["data/*.mesh"]
     (pkgshare/"data").install Dir["data/*.vtk"]
+    pkgshare.install "config"
   end
 
   test do
     cp_r "#{Formula["mfem"].opt_pkgshare}/examples", "./"
     cd "examples" do
       cp "#{Formula["mfem"].opt_pkgshare}/data/star.mesh", "./"
-      system "make", "all", "MFEM_DIR=#{Formula["mfem"].opt_prefix}", "CONFIG_MK=$(MFEM_DIR)/config.mk"
+      system "make", "all", "MFEM_DIR=#{Formula["mfem"].opt_prefix}", "CONFIG_MK=$(MFEM_DIR)/config.mk", "TEST_MK=#{pkgshare}/config/test.mk"
       args = ["-m", "star.mesh", "--no-visualization"]
       if Tab.for_name("mfem").with? "mpi"
         system "mpirun", "-np", "4", "./ex1p", *args

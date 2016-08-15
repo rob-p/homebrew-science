@@ -3,12 +3,13 @@ class BlazeLib < Formula
   homepage "https://bitbucket.org/blaze-lib/blaze/"
   url "https://bitbucket.org/blaze-lib/blaze/downloads/blaze-2.4.tar.gz"
   sha256 "34af70c8bb4da5fd0017b7c47e5efbfef9aadbabc5aae416582901a4059d1fa3"
+  revision 1
 
   bottle do
-    cellar :any
-    sha256 "4d58ed7bb8c63e505f03eb3ffeb34eb55bd79818312a5820f63f4a61831e6e91" => :yosemite
-    sha256 "838874d5429101af07e4583f0e3b55f85604910ab50faaaa67d7ec77b1fd43da" => :mavericks
-    sha256 "69b6cee54d526855674a5001145581d77c4ac40870c05cdd8ca6b1722533581e" => :mountain_lion
+    cellar :any_skip_relocation
+    sha256 "b0821e7f8723d7e206c22c4c801a3485767b4a2f717c81bb79bb762bd6ce4183" => :el_capitan
+    sha256 "0a203be18d1275ecef21931798fb52f0fca170526361e1cbbd52ee9cc331ca2f" => :yosemite
+    sha256 "0799170a3a4a5eb34cb5560b9e857d2431fc745812d3e4ff0a36e25923501e59" => :mavericks
   end
 
   depends_on "boost"

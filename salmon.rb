@@ -5,14 +5,21 @@ class Salmon < Formula
 
   url "https://github.com/COMBINE-lab/salmon/archive/v0.6.0.tar.gz"
   sha256 "2a015c0f95b745fbed575d8610aea7e09cb1af55ca2c68e10ab15826fba263b1"
+  revision 2
 
   head "https://github.com/COMBINE-lab/salmon.git"
 
+  patch do
+    url "https://github.com/COMBINE-lab/salmon/pull/70.patch"
+    sha256 "7129eac8591ad954cca30576519071b1f5ea2a36206f973a1aef0bc1eb5d20da"
+  end
+
   bottle do
-    sha256 "d8e67d2d7c1347c48008c1c34ce0155bd4abb693e90c5e4c7f88110dde882754" => :el_capitan
-    sha256 "71e0bbea9e3293cbc1906f32d1346e45da05b08628262fd1fc7ffe5584c7b347" => :yosemite
-    sha256 "6064db33c7bf432fe9f982fa84e03dff155dc3b93e4c592d968898fd8912cce0" => :mavericks
-    sha256 "abf450798088d659b47058e39ef72bd0248914659656594e061efe7f8ccf3bcf" => :x86_64_linux
+    cellar :any
+    sha256 "6a8708ac010f4ac175e072c2c2edba9e6d3782c6969c8907f83a203bc169df91" => :el_capitan
+    sha256 "63d44f6a21369e46824218fc646cf81908cc2dfd43c927764627e8989a54d283" => :yosemite
+    sha256 "7d561849727c0fceb45ee95c2d611d10ccf3c0d422d0a7202fd41b3002078666" => :mavericks
+    sha256 "57c41d341e783340482e9e538bcc36c645a3ba44cde6e7b3760077f053bfcfe3" => :x86_64_linux
   end
 
   # See https://github.com/kingsfordgroup/sailfish/issues/74

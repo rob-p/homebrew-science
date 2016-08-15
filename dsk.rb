@@ -4,15 +4,15 @@ class Dsk < Formula
   # doi "10.1093/bioinformatics/btt020"
   # tag "bioinformatics"
 
-  url "http://gatb-tools.gforge.inria.fr/versions/src/dsk-2.0.7-Source.tar.gz"
-  sha256 "109f1c6e460fcc1d3a880fc0a50fc585a1dd6b4bca614d5c494582a573e5de7b"
+  url "http://gatb-tools.gforge.inria.fr/versions/src/dsk-2.1.0-Source.tar.gz"
+  sha256 "08b35e5aff5d17eb35a61b06ba7f440ae8a5a4197b72fb0a465b5ea4dd7becd0"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "8ef63372b487dbae9e2028accb615c1c491e6b0ec392d5b994b30eb205bf7a0e" => :el_capitan
-    sha256 "baa4fad7e5e2f475addc21c3963cd2829842c2d379aa65875ec61eb97f05ba0b" => :yosemite
-    sha256 "06f53b2c001942c3c174d88280159b3acba0efe270aab6cae286d67f53ee47df" => :mavericks
-    sha256 "d167d344def7e36febf1388b9fbba6ea303966e0597f33694c353233c075e03f" => :x86_64_linux
+    sha256 "e5d10fdaa56b3a05c43550d8b72fcfa9b0f19c6117920b0536fd2392cdb0207c" => :el_capitan
+    sha256 "e3540a5467facb3c8a5b1f8ad369c3c9655bd891233cd04d13bd446e9da86e9e" => :yosemite
+    sha256 "3f6fbaf148c7d5d333dde9879331036ed9ad8afa5df9f19eb33f65ca15875408" => :mavericks
+    sha256 "8124115dabd9703d155bfc43c2cb8cac133621e1b62e70535144adb4b72ed162" => :x86_64_linux
   end
 
   depends_on "cmake" => :build

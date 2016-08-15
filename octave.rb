@@ -1,11 +1,10 @@
 class Octave < Formula
-  desc "high-level interpreted language for numerical computing"
+  desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  revision 4
 
   stable do
-    url "http://ftpmirror.gnu.org/octave/octave-4.0.2.tar.gz"
-    sha256 "39cd8fd36c218fc00adace28d74a6c7c9c6faab7113a5ba3c4372324c755bdc1"
+    url "https://ftpmirror.gnu.org/octave/octave-4.0.3.tar.gz"
+    sha256 "5a16a42fca637ae1b55b4a5a6e7b16a6df590cbaeeb4881a19c7837789515ec6"
 
     # Fix alignment of dock widget titles for OSX (bug #46592)
     # See: http://savannah.gnu.org/bugs/?46592
@@ -13,15 +12,15 @@ class Octave < Formula
       url "http://hg.savannah.gnu.org/hgweb/octave/raw-rev/e870a68742a6"
       sha256 "0ddcd8dd032be79d5a846ad2bc190569794e4e1a33ce99f25147d70ae6974682"
     end
+
+    # Fix bug #48407: libinterp fails to link to libz
+    patch :p0 do
+      url "http://savannah.gnu.org/bugs/download.php?file_id=37717"
+      sha256 "feeaad0d00be3008caef2162b549c42fd937f3fb02a36d01cde790a589d4eb2d"
+    end
   end
 
-  bottle do
-    sha256 "8f0adb897f165602623f1b95e95712a769e3378a621c1706359b3eac347fb960" => :el_capitan
-    sha256 "399d31bfb1addcceeb234b285990ed3c63afb9934e8f6c64b09b6cd8e41e50f1" => :yosemite
-    sha256 "17cf41ca8e7f6977164e06669d0655de65bc9366f92a3dde690e77cdab646a41" => :mavericks
-  end
-
-  if OS.mac? && MacOS.clang_version < "7.0"
+  if OS.mac? && DevelopmentTools.clang_version < "7.0"
     # Fix the build error with LLVM 3.5svn (-3.6svn?) and libc++ (bug #43298)
     # See: http://savannah.gnu.org/bugs/?43298
     patch do
@@ -48,6 +47,12 @@ class Octave < Formula
     depends_on "icoutils"      => :build
   end
 
+  bottle do
+    sha256 "ab2cd4059874f137f57cd956a19cd7bc434a748a33404fe844da1d4f7f484967" => :el_capitan
+    sha256 "ee6252781080ac5e9f63cad5ed1fe013e36eb6b3cc80efa45ec68ab52f3287db" => :yosemite
+    sha256 "8556db1fe1b44dfa0169c086c3497906df7c0200329a8f160eca818bd4f35c8d" => :mavericks
+  end
+
   skip_clean "share/info" # Keep the docs
 
   # deprecated options
@@ -57,9 +62,10 @@ class Octave < Formula
   option "without-curl",           "Do not use cURL (urlread/urlwrite/@ftp)"
   option "without-docs",           "Do not install documentation"
   option "without-fftw",           "Do not use FFTW (fft,ifft,fft2,etc.)"
+  option "without-fltk",           "Do not use FLTK graphics backend"
   option "without-glpk",           "Do not use GLPK"
   option "without-gnuplot",        "Do not use gnuplot graphics"
-  option "without-gui",            "Use the graphical user interface"
+  option "without-gui",            "Do not use the graphical user interface"
   option "without-hdf5",           "Do not use HDF5 (hdf5 data file support)"
   option "without-opengl",         "Do not use opengl"
   option "without-qhull",          "Do not use the Qhull library (delaunay,voronoi,etc.)"
@@ -70,7 +76,6 @@ class Octave < Formula
 
   # options, disabled by default
   option "with-audio",             "Use the sndfile and portaudio libraries for audio operations"
-  option "with-fltk",              "Build with FLTK graphics backend"
   option "with-java",              "Use Java, requires Java 6 from https://support.apple.com/kb/DL1572"
   option "with-jit",               "Use the experimental just-in-time compiler (not recommended)"
   option "with-openblas",          "Use OpenBLAS instead of native LAPACK/BLAS"
@@ -104,7 +109,7 @@ class Octave < Formula
   depends_on "glpk"            if build.with? "glpk"
   depends_on "gnuplot"         if build.with? "gnuplot"
   depends_on "hdf5"            if build.with? "hdf5"
-  depends_on :java => "1.6"    if build.with? "java"
+  depends_on :java => "1.6+"   if build.with? "java"
   depends_on "llvm"            if build.with? "jit"
   depends_on "pstoedit"        if build.with? "ghostscript"
   depends_on "qhull"           if build.with? "qhull"
@@ -300,8 +305,8 @@ class Octave < Formula
   end
 
   test do
-    system "octave", "--eval", "(22/7 - pi)/pi"
+    system bin/"octave", "--eval", "(22/7 - pi)/pi"
     # this is supposed to crash octave if there is a problem with veclibfort
-    system "octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
+    system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
   end
 end

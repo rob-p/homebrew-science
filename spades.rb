@@ -1,20 +1,23 @@
 class Spades < Formula
   desc "SPAdes: de novo genome assembly"
   homepage "http://bioinf.spbau.ru/spades/"
-  url "http://spades.bioinf.spbau.ru/release3.8.0/SPAdes-3.8.0.tar.gz"
-  sha256 "36e698546d3cfbbd26d8ddec13907c48025ccb2ca94803143398572dbfc90681"
+  url "http://spades.bioinf.spbau.ru/release3.9.0/SPAdes-3.9.0.tar.gz"
+  sha256 "77436ac5945aa8584d822b433464969a9f4937c0a55c866205655ce06a72ed29"
   # tag "bioinformatics"
   # doi "10.1089/cmb.2012.0021"
 
   bottle do
     cellar :any
-    sha256 "cd62c5f0d7e4b1448cc6add95c57d93ef804b82b29667836553dfb5f7684e978" => :el_capitan
-    sha256 "8b57ca106ce3c9e46151efbf10bc1befdf0a666e9ad7d920234502609dbbd005" => :yosemite
-    sha256 "7d644a773b9c4ecabecb711f8e10933e978bc542cc155a0a6c9d851d72c57780" => :mavericks
-    sha256 "f91c599804c5553fdf41ee37b72207e667f32f8f395cfc9c9b29492210401401" => :x86_64_linux
+    revision 1
+    sha256 "244ebfd9ed2461e003dc2ebb9030b11ef0c2e0e705b7da0fc533feb4c3b23d71" => :el_capitan
+    sha256 "d807d6322131bde60c4da57bb90136f549f48532dbc1b05d7268d9cbf4dc617e" => :yosemite
+    sha256 "c44b851d733c90d1109abeb8daa6cd68d66327eddf84c629494e373283fe0377" => :mavericks
+    sha256 "f7562b7fb92d4771a3cd5d3499e6cf2338581315fafef58e1ae3ed94d1b5b2f8" => :x86_64_linux
   end
 
   depends_on "cmake" => :build
+  depends_on "gcc"
+  depends_on :python if OS.linux?
 
   needs :openmp
 
@@ -23,16 +26,9 @@ class Spades < Formula
   end
 
   def install
-    inreplace "ext/src/cityhash/city.cc", "#ifdef __SSE4_2__", "#if 0"
-
     mkdir "src/build" do
       system "cmake", "..", *std_cmake_args
       system "make", "install"
-    end
-
-    # Fix audit error "Non-executables were installed to bin"
-    inreplace bin/"spades_init.py" do |s|
-      s.sub! /^/, "#!/usr/bin/env python\n"
     end
   end
 

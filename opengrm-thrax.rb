@@ -1,13 +1,13 @@
 class OpengrmThrax < Formula
   homepage "http://www.openfst.org/twiki/bin/view/GRM/Thrax"
-  url "http://www.openfst.org/twiki/pub/GRM/ThraxDownload/thrax-1.2.1.tar.gz"
-  sha256 "3710feefe7bdb462b032b169946b8338a4c1220181a5dcc3ef798d5d09adccdc"
+  url "http://www.openfst.org/twiki/pub/GRM/ThraxDownload/thrax-1.2.2.tar.gz"
+  sha256 "d1744b15ea142e172713c1645451e743a78e1731bb285ec0f4ea5c118d1dcfe7"
 
   bottle do
     cellar :any
-    sha256 "041d8eac5624c0f812f701e825ab5c675daa698523b1819b144722ec0689c5bd" => :el_capitan
-    sha256 "52d6ec14148f99a5a110365c232f879550b13b28b0ffca4f37700bde1d0fb5df" => :yosemite
-    sha256 "036dbbc989df705217c2bf820b07650c21e13026bd6aac4f237e982cbc0ecdda" => :mavericks
+    sha256 "9a2c63a57067e38d39be1a4299401ed87a89b899f26e96742fc3ccbc588f084c" => :el_capitan
+    sha256 "893fda3d8f2539e45d66a49eac9dab81069d3bb04cd849a79377b2ef722bab3c" => :yosemite
+    sha256 "385d96d3bfda3b50fe7b512a3ffadbde175a7de6d336a8d34bccd0e532e43169" => :mavericks
   end
 
   depends_on "openfst"

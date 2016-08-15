@@ -1,18 +1,17 @@
 class Shark < Formula
   desc "Machine leaning library"
-  homepage "http://shark-project.sourceforge.net/"
-  url "https://github.com/Shark-ML/Shark/archive/v3.0.0.tar.gz"
-  sha256 "b8b3bc9dca52369d4cc432b99ebdd37450056eb1b6ce86070996f16ea44d09ea"
+  homepage "http://image.diku.dk/shark/"
+  url "https://github.com/Shark-ML/Shark/archive/v3.1.1.tar.gz"
+  sha256 "87ae435b34d1b0ac027f194ab41626f07077d60e7cd9ea8e7efc206cd43b69ca"
 
   bottle do
-    cellar :any
-    sha256 "6cb63ae691b9b0876ae7343ee0145c3be23354a2fcdb40a524415367e65cecaf" => :el_capitan
-    sha256 "b2a62a4cadb5a226aac9742947d8a739596ea2cc3ca8945795d781743d3be7ba" => :yosemite
-    sha256 "e6b8a30aa855933b744a2939eb5826d5156e4a134aaa93d2bab3ab99f4f9f681" => :mavericks
+    sha256 "f4441c3e99bec7049d2694ef96e337dd452e1fa84c914fbc7be1c0e544dfe831" => :el_capitan
+    sha256 "c6ad00f988a65776d81eb21de5cd070368bfefbb41c5e1a147bc2b591a90c070" => :yosemite
+    sha256 "ac84e035d32327e7f019bac93b276f7a42cd132eb184cf324f3f6ffce83ccfe5" => :mavericks
   end
 
   depends_on "cmake" => :build
-  depends_on "boost"
+  depends_on "homebrew/versions/boost160"
 
   def install
     system "cmake", ".", *std_cmake_args
@@ -35,8 +34,9 @@ class Shark < Formula
       }
     EOS
 
-    system ENV.cxx, "test.cpp", "-o", "test",
-      "-I#{include}", "-L#{lib}", "-lshark", "-lboost_serialization"
+    system ENV.cxx, "test.cpp", "-o", "test", "-L#{lib}", "-lshark",
+           "-L#{Formula["boost160"].lib}", "-lboost_serialization",
+           "-I#{Formula["boost160"].include}"
     system "./test"
   end
 end

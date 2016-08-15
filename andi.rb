@@ -4,15 +4,15 @@ class Andi < Formula
   # tag "bioinformatics"
   # doi "10.1093/bioinformatics/btu815"
 
-  url "https://github.com/EvolBioInf/andi/releases/download/v0.9.6.2/andi-0.9.6.2.tar.gz"
-  sha256 "7f7911d625461490743aab95f0c9d4c96ed1eb47d75b20ac355d76aae0163535"
+  url "https://github.com/EvolBioInf/andi/releases/download/v0.10/andi-0.10.tar.gz"
+  sha256 "7182d43bd13aa51d12a5d69fe4e3e4f83aab8429f5030192ae860e1a1b0e3f77"
 
   bottle do
     cellar :any
-    sha256 "f3e2f40ee6c101b1954324464ac014187ec748dba5f510e7b51d63e51a8a20ba" => :el_capitan
-    sha256 "ffcad3200bbf99352b1d9e7d8063df19ebf9f821411176406a1e2e1ce3b2d68f" => :yosemite
-    sha256 "a61d5d9924386ef5d196d02a7fbd09bf579cf30446fec0cff18bdd2c176f39d6" => :mavericks
-    sha256 "448cef2db6aa301c7e1e8dc7585886f7d51de56218e8c701c055bc5c26b5ad67" => :x86_64_linux
+    sha256 "0e87c2f66d747c56e71995435f0972cdd4f55042596237a677eb03c488659797" => :el_capitan
+    sha256 "511676f1065cbee4099049ad351098f55111190a53b8dba63ca5182528d09a88" => :yosemite
+    sha256 "3ed9cf0b24aa1e585a5b22f90f425844979c481d9f036607f3c819f13a9bf8c8" => :mavericks
+    sha256 "6473702f23976c531ff21fa9720aa6e9f2d4887d5abe999bd089dee709ba2b46" => :x86_64_linux
   end
 
   depends_on "gsl"

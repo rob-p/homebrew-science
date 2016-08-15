@@ -1,50 +1,36 @@
 class Samtools < Formula
-  desc "Tools (written in C using htslib) for manipulating next-generation sequencing data"
+  desc "Tools for manipulating next-generation sequencing data"
   homepage "http://www.htslib.org/"
   # doi "10.1093/bioinformatics/btp352"
   # tag "bioinformatics"
 
-  url "https://github.com/samtools/samtools/releases/download/1.3/samtools-1.3.tar.bz2"
-  sha256 "beea4003c795a0a25224656815b4036f6864b8753053ed30c590bb052b70b60e"
-
+  url "https://github.com/samtools/samtools/releases/download/1.3.1/samtools-1.3.1.tar.bz2"
+  sha256 "6c3d74355e9cf2d9b2e1460273285d154107659efa36a155704b1e4358b7d67e"
   head "https://github.com/samtools/samtools.git"
 
   bottle do
     cellar :any
-    sha256 "c6bb8308c4ffb995ca46ac6be8e7087c22e7e2dd6bdb801690802b2d4f089a52" => :el_capitan
-    sha256 "97447111d3ab5dce204761395afd600060ba36c8b47045a65a33b8efd10c4bb6" => :yosemite
-    sha256 "c6baa6fc3f29cdb96a9fdf59f832455f4dd2c6ed25801d4a09f6e8cb9c810b98" => :mavericks
-    sha256 "d0e3e6f7ffba8ed4005ff14155727292b939a645c8c2376191aae0f24cf20eb3" => :x86_64_linux
+    sha256 "a00c0988740cfca3ab5c6320022e0be1040b388657e49392dda21991e0dd863d" => :el_capitan
+    sha256 "7c0706b65c5675889a355c3d0ca544ff9f8f22e9401b7270c2a42486b780da99" => :yosemite
+    sha256 "a7450a2071e194b8d53ca269279e875debce2167436b4e7d6e1cccb334a97f9f" => :mavericks
+    sha256 "fb76b53c76435522541953727533afda8d95a848bc4c8754022c6c4e7c194dca" => :x86_64_linux
   end
 
-  option "with-dwgsim", "Build with Whole Genome Simulation"
-  option "without-curses", "Skip use of libcurses, for platforms without it, or different curses naming"
-
-  depends_on "homebrew/dupes/ncurses" unless OS.mac?
   depends_on "htslib"
-  depends_on "dwgsim" => :optional
+  depends_on "homebrew/dupes/ncurses" unless OS.mac?
 
   def install
-    htslib = Formula["htslib"].opt_prefix
-    if build.without? "curses"
-      ohai "Building without curses"
-      system "./configure", "--with-htslib=#{htslib}", "--without-curses"
-    else
-      system "./configure", "--with-htslib=#{htslib}"
-    end
-
+    system "./configure", "--with-htslib=#{Formula["htslib"].opt_prefix}"
     system "make"
 
-    bin.install "samtools"
-    bin.install %w[misc/maq2sam-long misc/maq2sam-short misc/md5fa misc/md5sum-lite misc/wgsim]
-    bin.install Dir["misc/*.pl"]
+    bin.install Dir["{samtools,misc/*}"].select { |f| File.executable?(f) }
     lib.install "libbam.a"
-    man1.install %w[samtools.1]
-    (share+"samtools").install %w[examples]
-    (include+"bam").install Dir["*.h"]
+    (include/"bam").install Dir["*.h"]
+    man1.install "samtools.1"
+    pkgshare.install "examples"
   end
 
   test do
-    system "samtools 2>&1 |grep -q samtools"
+    system bin/"samtools", "--help"
   end
 end

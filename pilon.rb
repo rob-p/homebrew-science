@@ -1,13 +1,19 @@
 class Pilon < Formula
   desc "Improve draft assemblies and find variation"
   homepage "https://github.com/broadinstitute/pilon/wiki"
-  # tag "bioinformatics"
+  url "https://github.com/broadinstitute/pilon/releases/download/v1.18/pilon-1.18.jar"
+  sha256 "50589a96576101ccd68ba89e08e08fe7465cec8129757e3213b52b9ce88a0059"
+  head "https://github.com/broadinstitute/pilon.git"
   # doi "10.1371/journal.pone.0112963"
+  # tag "bioinformatics"
 
-  url "https://github.com/broadinstitute/pilon/releases/download/v1.16/pilon-1.16.jar"
-  sha256 "49d2fef3343c2759a0e6d7b22bdbf9c6acdb0a1f77ebbadba1c9cf94f2e9f4e6"
-
-  bottle :unneeded
+  bottle do
+    cellar :any_skip_relocation
+    sha256 "3d0ef53b1593729bfb1699c541d92679e350ccf329f4b9345965778c1742d8f0" => :el_capitan
+    sha256 "d09447178b800403b14b89a138a6a57280c4abe68eab40a343bdf2dc38fa53fc" => :yosemite
+    sha256 "40061af656772107896ac883d514f5c3d01fe8bf36e95dfe5db501a2c32539fa" => :mavericks
+    sha256 "186e0a48307827f4a2be1f1edf98138c5e74b0507eae71ad0e99d484bab49214" => :x86_64_linux
+  end
 
   depends_on :java
 
@@ -19,6 +25,6 @@ class Pilon < Formula
   end
 
   test do
-    assert_match "Pilon version", shell_output("pilon --help")
+    assert_match "Usage", shell_output("#{bin}/pilon --help")
   end
 end

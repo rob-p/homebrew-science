@@ -7,12 +7,13 @@ class Augustus < Formula
   url "http://bioinf.uni-greifswald.de/augustus/binaries/augustus-3.2.2.tar.gz"
   mirror "http://bioinf.uni-greifswald.de/augustus/binaries/old/augustus-3.2.2.tar.gz"
   sha256 "bb36fcaaaab32920908e794d04e6cb57a0c61d689bfbd31b9b6315233ea3559e"
+  revision 1
 
   bottle do
-    sha256 "f4b7001d5e3c215996686a3db9dad4cbe00244bd160d2d88c78295a9ffbad04c" => :el_capitan
-    sha256 "a71a1833f5cffa81ecc2241b880cd18619ebf34b011d1c9223aed25dc3eff219" => :yosemite
-    sha256 "8c3db1a79fc05a63af6f137aef3e2b7b00e5205a069d2fa679763496f323bd48" => :mavericks
-    sha256 "c02c14202175281098ecb92304d6385755dbdb2b3dc9bd7b14920bcbaf367833" => :x86_64_linux
+    sha256 "40e3004de6efeab4b5c51a8cdcd550da16e67c9e7d88c303bb9ad0c5ea28c858" => :el_capitan
+    sha256 "1eed43538484957cbf3a21dec725950adac6620b57f93f0c0686fc1038c931fa" => :yosemite
+    sha256 "51383cc511a460b6c9cf301a862d991b25e3f2e8d0e9ed51dfa1a27d03c61749" => :mavericks
+    sha256 "e8bf9a9233f323f203e58c688ded56dcf97f2bab3d13c40947a480b0733f223d" => :x86_64_linux
   end
 
   option "with-cgp",  "Enable comparative gene prediction"

@@ -3,12 +3,13 @@ class Mlpack < Formula
   # doi "arXiv:1210.6293"
   url "http://www.mlpack.org/files/mlpack-2.0.1.tar.gz"
   sha256 "87305f7003e060d3c93d60ce1365c4ec0fa7e827c356e857be316b0e54114f22"
+  revision 2
 
   bottle do
     cellar :any
-    sha256 "8e19f5d05105b60ff7c9437e6e2604e3d44c8e0090b335b9e1e4426c3df40b23" => :el_capitan
-    sha256 "f314365938a94d00d350c94291cb05ccf6c934e026859d256bba3f4a7aa8e6b7" => :yosemite
-    sha256 "f2a09ab8b1d87c1c7b18221c2ecb866fe424a5e7d24d900b4dd687465c0b747c" => :mavericks
+    sha256 "cb031721dc98ab1cdf1ebb1dc4bb3aac7f1546c20aa0ca7068d545a036b86ce4" => :el_capitan
+    sha256 "e52db6b865b042fe2cf0d934d0cf4a463481f6152b79bd5be5c973cee1b3477e" => :yosemite
+    sha256 "191672a982bf3c1dd17766f0f16d5f2657f536634f867bf75922cf97cdd5cd49" => :mavericks
   end
 
   needs :cxx11

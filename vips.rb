@@ -1,13 +1,13 @@
 class Vips < Formula
   desc "Image processing library"
   homepage "http://www.vips.ecs.soton.ac.uk/"
-  url "http://www.vips.ecs.soton.ac.uk/supported/8.3/vips-8.3.1.tar.gz"
-  sha256 "09cb7f8d5640c7693bae07080202de0cead60c668e086f2739248bacd40a1006"
+  url "http://www.vips.ecs.soton.ac.uk/supported/8.3/vips-8.3.3.tar.gz"
+  sha256 "797f5c7dc179db2cc597da4b929b2c7aebb7390d5da24bc472f41f801d9396c5"
 
   bottle do
-    sha256 "7f7f80c38e844389d45aea55d354ebbbf5ef5efdefa64b5a00c5afe782215d7d" => :el_capitan
-    sha256 "2829062d07d8ed719e11fd37f7af7fa93f934de720d1e123006cba8644afe643" => :yosemite
-    sha256 "5f176b75622b919f4af58403983f76e1a638ced19d41db6ee05fb6afbe5108ed" => :mavericks
+    sha256 "4df6ebfb2d67d5851143624bc83a6e85225e5068f620cfe3655d6c543a8f555e" => :el_capitan
+    sha256 "1e2e97e5fbc3aefefcbe1d461043482def52bfb82c128b7dd67f26264298cb9b" => :yosemite
+    sha256 "7fa1924dff280edb89c36d5d1798961616b9d94f6785c28e9eab18bf8751b9a5" => :mavericks
   end
 
   option "without-test", "Disable build time checks (not recommended)"
@@ -33,6 +33,7 @@ class Vips < Formula
   depends_on "poppler" => :recommended
   depends_on "librsvg" => :recommended
   depends_on "giflib" => :recommended
+
 
   depends_on "openslide" => :optional
   depends_on "imagemagick" => :optional

@@ -4,16 +4,17 @@ class Bedops < Formula
   # doi "10.1093/bioinformatics/bts277"
   # tag "bioinformatics"
 
-  url "https://github.com/bedops/bedops/archive/v2.4.19.tar.gz"
-  sha256 "f170e2187d4136ae764fedd731d117f9f1ad243ee39452098f221c79217a77e4"
+  url "https://github.com/bedops/bedops/archive/v2.4.20.tar.gz"
+  sha256 "1c604b1a85d9acdf444f497e3a24c16e5b60df57d8699b0a8594ff2d6188a41a"
 
   head "https://github.com/bedops/bedops.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "b31e30e93d6988e13995ccdf597949629fc8d993d433dc73400654c27d5fe3f0" => :el_capitan
-    sha256 "13fef35487fa299a6b1c7ab5c3f438606e953005f67e865a671308ca8a0aa490" => :yosemite
-    sha256 "8ad8aa41592fd590ad5391789ee1761dd09c6301be4c908dad7f652dc54c1979" => :mavericks
+    sha256 "2ce3e942c119118bc12feb0e5f15a60bd2bca9fcc5c3f604bbaa35f7f3755647" => :el_capitan
+    sha256 "084b521cd3999f89e586d36493b14e5eb8678a0c9058a98814472becfc7f2064" => :yosemite
+    sha256 "f6097d30f3a5e1e4c51928a5406b4838aa48c1e7f172390afa32b2a7daa55777" => :mavericks
+    sha256 "b2ac4d2f11b5bfc4889381022b82af9ae1561740ac1e557670e7217672b4cdee" => :x86_64_linux
   end
 
   env :std

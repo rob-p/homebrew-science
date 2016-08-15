@@ -1,50 +1,17 @@
-class CudaRequirement < Requirement
-  build true
-  fatal true
-
-  satisfy { which "nvcc" }
-
-  env do
-    # Nvidia CUDA installs (externally) into this dir (hard-coded):
-    ENV.append "CFLAGS", "-F/Library/Frameworks"
-    # # because nvcc has to be used
-    ENV.append "PATH", which("nvcc").dirname, ":"
-  end
-
-  def message
-    <<-EOS.undent
-      To use this formula with NVIDIA graphics cards you will need to
-      download and install the CUDA drivers and tools from nvidia.com.
-
-          https://developer.nvidia.com/cuda-downloads
-
-      Select "Mac OS" as the Operating System and then select the
-      'Developer Drivers for MacOS' package.
-      You will also need to download and install the 'CUDA Toolkit' package.
-
-      The `nvcc` has to be in your PATH then (which is normally the case).
-
-    EOS
-  end
-end
+require File.expand_path("../Requirements/cuda_requirement", __FILE__)
 
 class Pcl < Formula
   desc "Library for 2D/3D image and point cloud processing"
   homepage "http://www.pointclouds.org/"
-
-  stable do
-    url "https://github.com/PointCloudLibrary/pcl/archive/pcl-1.8.0.tar.gz"
-    sha256 "9e54b0c1b59a67a386b9b0f4acb2d764272ff9a0377b825c4ed5eedf46ebfcf4"
-  end
-
-  head do
-    url "https://github.com/PointCloudLibrary/pcl.git"
-  end
+  url "https://github.com/PointCloudLibrary/pcl/archive/pcl-1.8.0.tar.gz"
+  sha256 "9e54b0c1b59a67a386b9b0f4acb2d764272ff9a0377b825c4ed5eedf46ebfcf4"
+  head "https://github.com/PointCloudLibrary/pcl.git"
+  revision 2
 
   bottle do
-    sha256 "4e3333146a00333a86330895a4a86887551a6ca554e9f48232ef3a2d839cdcb1" => :el_capitan
-    sha256 "10c48d69ab8ecb6a164d9f5dd57d98bd099a75066ba47ec04353f5a827df72ea" => :yosemite
-    sha256 "a12655c5c42ade6e7b3586a0b5eaaca13d5cd806bc8e2ae77a8f890579df1921" => :mavericks
+    sha256 "479be6e6410f4f2564d6f73816bd5d3a6356e5d12aa9ed073c0a9fef9b0efaa2" => :el_capitan
+    sha256 "c2a3531109975e09808556ce922967bd9b0fcf167280ffa7dcdf86a065baddb6" => :yosemite
+    sha256 "d5b080e0d6c48e6640ca503810a644a30f214019171250f3af4a850614483ccc" => :mavericks
   end
 
   option "with-examples", "Build pcl examples."
@@ -80,6 +47,7 @@ class Pcl < Formula
   end
   depends_on "openni" => :optional
   depends_on "openni2" => :optional
+
 
   def install
     args = std_cmake_args + %W[
@@ -159,5 +127,9 @@ class Pcl < Formula
 
       prefix.install Dir["#{bin}/*.app"]
     end
+  end
+
+  test do
+    assert_match "tiff files", shell_output("#{bin}/pcl_tiff2pcd -h", 255)
   end
 end

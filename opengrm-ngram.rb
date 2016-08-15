@@ -1,13 +1,13 @@
 class OpengrmNgram < Formula
   homepage "http://www.openfst.org/twiki/bin/view/GRM/NGramLibrary"
-  url "http://openfst.cs.nyu.edu/twiki/pub/GRM/NGramDownload/opengrm-ngram-1.2.2.tar.gz"
-  sha256 "12bba4c1345f3933e161859cc9cb5d21b772d2b46173b4511fc778c67ada233b"
+  url "http://openfst.cs.nyu.edu/twiki/pub/GRM/NGramDownload/opengrm-ngram-1.3.0.tar.gz"
+  sha256 "bb5b4cb609f0beab6fabbb65234c818199a17a49e534bde270c6f72d880fe2b3"
 
   bottle do
     cellar :any
-    sha256 "58c0aacb0f298b5e4777864487172ef78886e2affffc6c13c5876c529d309529" => :el_capitan
-    sha256 "8a906fb5089a8db967529bc4edf8a38ebb462c3e41c1ce4c849459efca5ed111" => :yosemite
-    sha256 "7b6c06fa7c008e8f0799ef3f0071f9e621cdda196ef9b2ff37282309a7460756" => :mavericks
+    sha256 "b928df84a8aff4878aa17df8b5d774ccb5e6aa98f2c59c3e1edd5307c95067c9" => :el_capitan
+    sha256 "171dc8daa8603d2e052355e038b797a3f77f90f5af896f30b64262b9e63d9b5f" => :yosemite
+    sha256 "5339487fc2738453ce23ff42fbcd76f0c25ef64c99f7e111a6bd1a23b7a327d4" => :mavericks
   end
 
   depends_on "openfst"

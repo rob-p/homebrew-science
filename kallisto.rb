@@ -3,15 +3,15 @@ class Kallisto < Formula
   homepage "https://pachterlab.github.io/kallisto/"
   # doi "10.1038/nbt.3519"
   # tag "bioinformatics"
-  url "https://github.com/pachterlab/kallisto/archive/v0.42.5.tar.gz"
-  sha256 "2b30a82cc34c0e6251dca29c03ff8a7430407f8a00e393c91b8664a05d6bac6d"
+  url "https://github.com/pachterlab/kallisto/archive/v0.43.0.tar.gz"
+  sha256 "69c3ad9a58d93298bb53ecdd4b68c2c6fa65584aed108beb4cb59a4f87c32cb5"
 
   bottle do
     cellar :any
-    sha256 "8de3e89efbb2ae6792ac9482046978a5c1f73b4095b7dddf03820ee0fce786a2" => :el_capitan
-    sha256 "f5dbd2e0bfce5260c0bf697163a7c9c38c5df6f00cfa3dc2d0282fe4ca890045" => :yosemite
-    sha256 "116b814beb9756392a7ff18471fb6c79440be81f55c1500a01855a299580f1f5" => :mavericks
-    sha256 "de86a7b7e6178ee74f0d3f03d12332a72364afd3f0b33ec5ffce7aff0eb71162" => :x86_64_linux
+    sha256 "fc93dd76c238ed66f842367edcd0e3da27565b1f4e360cbe5d36ee9b8bc942b9" => :el_capitan
+    sha256 "ed1a4a70e2b1510465bbc3f6ab9a3d492ab2230c68509743ba07bfff3130cf45" => :yosemite
+    sha256 "ea5118efaa234ff719f74f2658ae837ac0b16cd1c305438046e87d966f491762" => :mavericks
+    sha256 "280c8c39e87b65be15bfcec6a9ce8925490cf2a7340aa2cc0ca0ce4ce2aebf6d" => :x86_64_linux
   end
 
   needs :cxx11

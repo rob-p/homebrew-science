@@ -1,24 +1,19 @@
 class Analysis < Formula
+  desc "Programs for the (pre-NGS-era) analysis of population-genetic data."
   homepage "https://github.com/molpopgen/analysis"
-  url "https://github.com/molpopgen/analysis/archive/0.8.7.tar.gz"
-  sha256 "3af7ce89358376d3d27ee97b518735ddddc7a5cb6e0b340833c8e1a44fdb34be"
+  url "https://github.com/molpopgen/analysis/archive/0.8.8.tar.gz"
+  sha256 "f9ef9e0a90fce2c0f4fe462d6c05e22fef22df1c23b63a7c64ad7b538f6e8bb0"
+  # tag "bioinformatics"
 
   bottle do
     cellar :any
-    sha256 "40055b7f5992ceb0e82ebbb416c0ef9ed4ddadc128df8230edcf012242059c6b" => :yosemite
-    sha256 "67b41c0f0a5ff58e4a7e56c5656bbb6daff0819e27218e3a214245f74fff502c" => :mavericks
-    sha256 "5fc72ebd81ba0027610720a264ff3aba6613e10fe2de905b74b9c46c32649c55" => :mountain_lion
+    sha256 "73715fa6c7409ed0a61a1ef1fc52d9be3ecfb6b957cff457dda00e78994f7a07" => :el_capitan
+    sha256 "7401dbfefd51ca79a1108e74bcfe28ba6d07d3e7ba00dfd66be2741fe42083fa" => :yosemite
+    sha256 "46f056c0fe1224a7d1f177d0baed6d1b13ee3948078570de3204833e4aac8dbc" => :mavericks
   end
 
   depends_on "gsl"
   depends_on "libsequence"
-
-  # add missing include
-  # https://github.com/molpopgen/analysis/pull/3
-  patch do
-    url "https://github.com/tdsmith/molpopgen-analysis/commit/01c796d.diff"
-    sha256 "abaefd36f108f1981e28d874e4cd78ca961d07841e69b4af607d0585354c72d5"
-  end
 
   needs :cxx11
 
@@ -30,6 +25,6 @@ class Analysis < Formula
   end
 
   test do
-    assert shell_output("#{bin}/gestimator 2>&1", 1).include? "gestimator"
+    assert_match "codon", shell_output("#{bin}/gestimator 2>&1", 1)
   end
 end

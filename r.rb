@@ -7,19 +7,20 @@ end
 class R < Formula
   desc "Software environment for statistical computing"
   homepage "https://www.r-project.org/"
-  url "https://cran.rstudio.com/src/base/R-3/R-3.3.0.tar.gz"
-  mirror "https://cran.r-project.org/src/base/R-3/R-3.3.0.tar.gz"
-  sha256 "9256b154b1a5993d844bee7b1955cd49c99ad72cef03cce3cd1bdca1310311e4"
-  revision 1
+  url "https://cran.rstudio.com/src/base/R-3/R-3.3.1.tar.gz"
+  mirror "https://cran.r-project.org/src/base/R-3/R-3.3.1.tar.gz"
+  sha256 "3dc59ae5831f5380f83c169bac2103ad052efe0ecec4ffa74bde4d85a0fda9e2"
+  revision 2
 
   # Do not remove executable permission from these scripts.
   # See https://github.com/Linuxbrew/linuxbrew/issues/614
   skip_clean "lib/R/bin" unless OS.mac?
 
   bottle do
-    sha256 "9a6dfc72a9d4a013b57aa715fc593335d347057c1d5abee83cf3a4657ad2eb95" => :el_capitan
-    sha256 "c76212713cf7ef663643f876e3f5e36042ff55c7c0ad9052884b90aec4e55707" => :yosemite
-    sha256 "eb2621ae404b12ffdb8f981f1f2df8431e7bb703d3f478ce65c4c7525d1d8049" => :mavericks
+    sha256 "db82106e4c89d08a9de62e70d1e69522cf668d2a8a5ccc95f7390347c2310e89" => :el_capitan
+    sha256 "ba49ca1352aba22217bcf6433be5938da1c14e98a55da8c4ff2fcc019540c318" => :yosemite
+    sha256 "c888557974a25748dd915f09bdfbb03ddfa10099a121af822dfcc82791f384d1" => :mavericks
+    sha256 "aa943fec8b06fe13a5b9d47f97210d16a1286c6f289b821e203a394358fa0927" => :x86_64_linux
   end
 
   head do
@@ -44,6 +45,7 @@ class R < Formula
   depends_on "jpeg"
   depends_on "libpng"
   depends_on "xz"
+  depends_on "curl" unless OS.mac?
 
   depends_on "openblas" => :optional
   depends_on "pango" => :optional
@@ -65,6 +67,9 @@ class R < Formula
       "--with-libintl-prefix=#{Formula["gettext"].opt_prefix}",
       "--enable-memory-profiling",
     ]
+
+    # don't remember Homebrew's sed shim
+    args << "SED=/usr/bin/sed" if File.exist?("/usr/bin/sed")
 
     if OS.linux?
       args << "--libdir=#{lib}" # avoid using lib64 on CentOS

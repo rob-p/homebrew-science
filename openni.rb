@@ -1,8 +1,6 @@
 class Openni < Formula
   homepage "http://www.openni.org/"
 
-  head "https://github.com/OpenNI/OpenNI.git"
-
   stable do
     url "https://github.com/OpenNI/OpenNI/archive/Stable-1.5.7.10.tar.gz"
     sha256 "34b0bbf68633bb213dcb15408f979d5384bdceb04e151fa519e107a12e225852"
@@ -14,6 +12,13 @@ class Openni < Formula
     end
   end
 
+  bottle do
+    cellar :any
+    sha256 "32d787ed336f7e44ad706a46ae9e130c3684d0f7ec1559d3f418eece8812de4b" => :el_capitan
+    sha256 "c0084f6590d7fd79854868ac4e5d34e05f1a61e103589a2bcfbb46c09a0b2162" => :yosemite
+    sha256 "cabb19d1ae8ae8166d7bad26d433ce1bfb4d2de27999fc7431024a750c0ab86d" => :mavericks
+  end
+
   devel do
     url "https://github.com/OpenNI/OpenNI/archive/Unstable-1.5.8.5.tar.gz"
     sha256 "766d3b9745e8d486ad2998e1437bb161188282cfc1553502386457d1438df42f"
@@ -22,6 +27,14 @@ class Openni < Formula
     patch do
       url "https://github.com/OpenNI/OpenNI/pull/95.diff"
       sha256 "722fb0a6e6e99a5cc7c7e862ac802dfd3d03785c27af1d20d7f48314ff5154dd"
+    end
+  end
+
+  head do
+    url "https://github.com/OpenNI/OpenNI.git"
+    patch do
+      url "https://github.com/OpenNI/OpenNI/pull/106.diff"
+      sha256 "4aa53e8d6447417be32d1d7ff93788838ee837de291620cb753395be57a25d1d"
     end
   end
 

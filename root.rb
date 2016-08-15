@@ -1,16 +1,15 @@
 class Root < Formula
   desc "Object oriented framework for large scale data analysis"
   homepage "http://root.cern.ch"
-  version "5.34.34"
+  version "5.34.36"
   url "https://root.cern.ch/download/root_v#{version}.source.tar.gz"
-  sha256 "8c1faf893ed3b279f3500368b3dcd2087352020a69d3055c4d36726e7f6acd58"
-  revision 1
+  sha256 "fc868e5f4905544c3f392cc9e895ef5571a08e48682e7fe173bd44c0ba0c7dcd"
   head "https://github.com/root-mirror/root.git", :branch => "v5-34-00-patches"
 
   bottle do
-    sha256 "613f35d0a27605432ad78ccad9569cc4e99e09e2e5be0fe5c4e8df79b20e920e" => :el_capitan
-    sha256 "0ca5c7f65a53ac75c82187bde58f59ecb4167bcfaa399bf7af4672b61e5e4043" => :yosemite
-    sha256 "da95281b991b743e86acf1dc33e50fab813c2d44f0d236884090e25de69207e5" => :mavericks
+    sha256 "711c585558be6ebb6b830d9a9123e2defbcb33de8a94e0a82f582476d6c21d40" => :el_capitan
+    sha256 "a0142adda7ea0c675b066a9f976825b2a86f0b006c3c84d0a36146ef253713b5" => :yosemite
+    sha256 "0061471d7862ab140d4dd8001b28673f0e22894f077cb3ba23eb75bd9ab42e9c" => :mavericks
   end
 
   option "with-qt", "Build with Qt graphics backend and GSI's Qt integration"
@@ -21,7 +20,7 @@ class Root < Formula
   depends_on "fftw" => :optional
   depends_on "qt" => [:optional, "with-qt3support"]
   depends_on :x11 => :optional
-  depends_on :python
+  depends_on :python if MacOS.version <= :snow_leopard
 
   def install
     # brew audit doesn't like non-executables in bin
@@ -42,6 +41,7 @@ class Root < Formula
       --all
       --enable-builtin-glew
       --enable-builtin-freetype
+      --disable-ruby
       --prefix=#{prefix}
       --etcdir=#{prefix}/etc/root
       --mandir=#{man}

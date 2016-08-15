@@ -6,13 +6,14 @@ class Abyss < Formula
 
   url "https://github.com/bcgsc/abyss/releases/download/1.9.0/abyss-1.9.0.tar.gz"
   sha256 "1030fcea4bfae942789deefd3a4ffb30653143e02eb6a74c7e4087bb4bf18a14"
+  revision 1
 
   bottle do
     cellar :any
-    sha256 "f0df6ae35b0db758ecba42d60cf7f6bf793e9cfe54bf05e6663afc51f4cbb5eb" => :yosemite
-    sha256 "d1c37d46cbef0781ab1078d390b530f805e731ca7ed1272225db6f32d4c04b23" => :mavericks
-    sha256 "943dd756f97b6c787f86cd95b150cab78d70d673648a2209b867e58ee4827906" => :mountain_lion
-    sha256 "7c6252a1734df9bfaf90ae8c3d702aa578e7968621d5258a37bd10a4beb54d03" => :x86_64_linux
+    sha256 "6c0b06cc672b077fe85d00e477d86b7132f8ae77631597eb5fed2f54ba8bd5bc" => :el_capitan
+    sha256 "af309c5203e760859f2b434b23259c15cbc3cb29efc3d3b686607a31d501d7ab" => :yosemite
+    sha256 "a3fd8a9126721dccf37745b476847eaa9b1393bc10c5f29eb2ac28a2458af7cc" => :mavericks
+    sha256 "95b4c713acc165bb6fb9af533a24f8228f9cfd0b7e10233d4a9eee7573266ba5" => :x86_64_linux
   end
 
   head do
@@ -24,9 +25,12 @@ class Abyss < Formula
   end
 
   option :cxx11
-  option "enable-maxk=", "Set the maximum k-mer length to N [default is 96]"
-  option "without-check", "Skip build-time tests (not recommended)"
+  option "with-maxk=", "Set the maximum k-mer length to N [default is 96]"
+  option "without-test", "Skip build-time tests (not recommended)"
   option "with-openmp", "Enable OpenMP multithreading"
+
+  deprecated_option "enable-maxk" => "with-maxk"
+  deprecated_option "without-check" => "without-test"
 
   needs :openmp if build.with? "openmp"
 
@@ -44,13 +48,14 @@ class Abyss < Formula
     system "./autogen.sh" if build.head?
 
     args = [
-      "--enable-maxk=#{ARGV.value("enable-maxk") || 96}",
+      "--enable-maxk=#{ARGV.value("with-maxk") || 96}",
       "--prefix=#{prefix}",
-      "--disable-dependency-tracking"]
+      "--disable-dependency-tracking",
+    ]
 
     system "./configure", *args
     system "make"
-    system "make", "check" if build.with? "check"
+    system "make", "check" if build.with? "test"
     system "make", "install"
   end
 

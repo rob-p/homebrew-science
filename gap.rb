@@ -1,15 +1,15 @@
 class Gap < Formula
-  desc "A system for computational discrete algebra"
+  desc "System for computational discrete algebra"
   homepage "http://www.gap-system.org/"
-  url "http://www.gap-system.org/pub/gap/gap48/tar.bz2/gap4r8p3_2016_03_19-22_17.tar.bz2"
-  version "4.8.3"
-  sha256 "81d358109d87014eb10d1325c38ee94aa968b2a6365afd1a7411bfdd44f7a454"
+  url "http://www.gap-system.org/pub/gap/gap48/tar.bz2/gap4r8p4_2016_06_04-12_41.tar.bz2"
+  version "4.8.4"
+  sha256 "f394bb4c5f24c662ba5ef1674e6c3d7565e31e60fc7e37c7b0f7e5208e029828"
 
   bottle do
     cellar :any
-    sha256 "aa2cfacc8fc9b92a2d9e099daec207a400e8d6d01e2b91e245e8a39b9eed9cf7" => :el_capitan
-    sha256 "c5b556ed66c2f2220848fd1f01c1eaf5b6d931a77f4fef3bd44aab993638f971" => :yosemite
-    sha256 "4f665cea57a0d0a3ee744a4b6282a951709600f77f7cca2a9f353b245a899893" => :mavericks
+    sha256 "5592f3f365905cfe3989ea9498c8aef785d3c9195051884b2898d7fa9df31165" => :el_capitan
+    sha256 "9f2ac0862296062c2bfceeb3834e81626843a7c6e3c2f20e13b009f125cb39a6" => :yosemite
+    sha256 "9aab0786812ffcc15eec79265b03970913b90551c1ccec5ebad6c41b41315624" => :mavericks
   end
 
   # NOTE:  the archive contains the [GMP library](http://gmplib.org) under
@@ -17,8 +17,10 @@ class Gap < Formula
   #   with Homebrew), and a number of GAP packages under `pkg/`, some of
   #   which need to be built.
 
-  option "with-InstPackages",
-         "Try to build included packages using InstPackages script"
+  option "with-packages",
+         "Try to build included packages using BuildPackages script"
+
+  deprecated_option "with-InstPackages" => "with-packages"
 
   depends_on "gmp"
   # NOTE:  A version of [GMP](https://gmplib.org) is included in GAP archive
@@ -26,13 +28,6 @@ class Gap < Formula
   #   See http://www.gap-system.org/Download/INSTALL for details.
 
   depends_on "readline" => :recommended
-
-  INST_PACKAGES_SCRIPT_URL = "http://www.gap-system.org/Download/InstPackages.sh"
-
-  resource "script_that_builds_included_packages" do
-    url INST_PACKAGES_SCRIPT_URL
-    sha256 "e4ed35338065597fda67d1edcb29a6372ef1a7b7e612237db2afebd657c5c509"
-  end
 
   def install
     # Remove some useless files
@@ -84,18 +79,12 @@ class Gap < Formula
       bin.install_symlink File.expand_path(`readlink -n gap.sh`) => "gap"
     end
 
-    if build.with? "InstPackages"
+    if build.with? "packages"
       ohai "Trying to automatically build included packages"
-
-      resource("script_that_builds_included_packages").stage do
-        chmod "u+x", "InstPackages.sh"
-        (libexec/"pkg").install "InstPackages.sh"
-      end
-
       cd libexec/"pkg" do
         # NOTE:  running this script is known to produce a number of error
         #   messages, possibly failing to build certain packages
-        system "./InstPackages.sh"
+        system "../bin/BuildPackages.sh"
       end
     end
   end
@@ -103,22 +92,22 @@ class Gap < Formula
   # XXX:  `brew info` displays the caveats according to the options it is
   #   given, not according to the options with which the formula is installed
   def caveats
-    if build.without?("InstPackages")
+    if build.without?("packages")
       <<-EOS.undent
-        If the formula is installed without the `--with-InstPackages' option,
+        If the formula is installed without the `--with-packages' option,
         some packages in:
           #{libexec/"pkg"}
         will need to be built manually with the following script:
-          #{INST_PACKAGES_SCRIPT_URL}
+          #{libexec/"bin/BuildPackages.sh"}
         See the Section 7 of #{libexec/"INSTALL"} for more info.
       EOS
     else
       <<-EOS.undent
-        When the formula is installed with the `--with-InstPackages' option,
+        When the formula is installed with the `--with-packages' option,
         some packages in
           #{libexec/"pkg"}
         are automatically built using the following script:
-          #{INST_PACKAGES_SCRIPT_URL}
+          #{libexec/"bin/BuildPackages.sh"}
         However, this script is known to produce a number of error messages,
         and thus it might have failed to build certain packages.
       EOS

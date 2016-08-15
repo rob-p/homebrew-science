@@ -1,17 +1,18 @@
 class Quast < Formula
   desc "QUAST: Quality Assessment Tool for Genome Assemblies"
-  homepage "http://bioinf.spbau.ru/en/quast"
-  # doi "10.1093/bioinformatics/btt086"
+  homepage "http://quast.sourceforge.net"
+  # doi "10.1093/bioinformatics/btt086", "10.1093/bioinformatics/btw379"
   # tag "bioinformatics"
 
-  url "https://downloads.sourceforge.net/project/quast/quast-4.0.tar.gz"
-  sha256 "f8e3b631131a6f133c9973c57e2d615be9b7f8e8ae05f76560b7c2a01ee97ed5"
+  url "https://downloads.sourceforge.net/project/quast/quast-4.2.tar.gz"
+  sha256 "fbaa1b5fe0cbbcbbedaafebce5a922250ad7b916fc7538b73cd16c3d70226db3"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "b49c53be3c39c9fbc24082ad29402ecb451501f469c533d6b5838e45d73e2340" => :el_capitan
-    sha256 "d43ba8fed47a052605a25c52f893401256043b4b38a2ba7fd5f67ef12636ab15" => :yosemite
-    sha256 "b49d73e6874c29fd123b8294fe909cb46d062c5d72d7e4bf7f52f57ab534b145" => :mavericks
+    sha256 "6f8e532693e2489a28a352b642b7e49142b1dd37592cf4d26050965d73f67fe6" => :el_capitan
+    sha256 "64dd1f0cc101b783aa966dc95b043f58d63cbbc497e39b037660dd5f1742c6bf" => :yosemite
+    sha256 "8dba14eebd1739ff6c5b1f71f05c25dc63d2239dcd73fdeba17385871662f1f4" => :mavericks
+    sha256 "78bfe6cbc0a5fdbd7d8316a45a3dc5ad6d55141e3f8fa2cefb6f80d1fbb9f5ed" => :x86_64_linux
   end
 
   if OS.mac? && MacOS.version <= :mountain_lion

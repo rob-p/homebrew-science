@@ -3,14 +3,15 @@ class Nixio < Formula
   homepage "http://www.g-node.org/nix"
   url "https://github.com/G-Node/nix/archive/1.1.0.tar.gz"
   sha256 "d607d96117621e5cc563002c4c161913d95db36eeb7c4e6f51afca5f6b788fcc"
+  revision 1
 
   head "https://github.com/G-Node/nix.git"
 
   bottle do
     cellar :any
-    sha256 "9cb0f5f3b4d25e4e53bee32223b97ded9bfe4ee5763954b2a4415655f968a678" => :el_capitan
-    sha256 "642a99210080298f004546242334f1d43caedaba0b5c1aeee79c697b28f6317b" => :yosemite
-    sha256 "34b92b846c587d96b58a2dbcbf52c77d01955e0d27c921c62bd019371a2010a8" => :mavericks
+    sha256 "ba195bf63ac49e7d2f7f0c5b02600b12de1d073a9d7f85fc2ae08487c9283183" => :el_capitan
+    sha256 "ff75908f4cd2c63f039db3ee6cec87df200f7efb03a9adaa2d66a27de5fbc1e0" => :yosemite
+    sha256 "fcc41a6ed3ef8eb051118ca3b8d754c715626adb68806a1f5e1f2458da775a1f" => :mavericks
   end
 
   depends_on "cmake" => :build
@@ -32,6 +33,9 @@ class Nixio < Formula
 
   def install
     ENV.cxx11
+
+    # https://github.com/G-Node/nix/pull/622
+    inreplace "CMakeLists.txt", "(nix CXX)", "(nix C CXX)"
 
     system "cmake", ".", *std_cmake_args
     system "make"

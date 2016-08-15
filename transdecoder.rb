@@ -1,18 +1,19 @@
 class Transdecoder < Formula
+  desc "Identifies candidate coding regions within transcript sequences"
   homepage "https://transdecoder.github.io/"
+  url "https://github.com/TransDecoder/TransDecoder/archive/v3.0.0.tar.gz"
+  sha256 "b5a1ad48c0df64bb539709e523418bbe197d0342bd2fae40e035234946bcaeb6"
+  head "https://github.com/TransDecoder/TransDecoder.git"
   # tag "bioinformatics"
-
-  url "https://github.com/TransDecoder/TransDecoder/archive/2.0.1.tar.gz"
-  sha256 "ce069da72c8a04e739f8c057af4f97187bf587d3f0d3db40465dfc2c89393e22"
 
   head "https://github.com/TransDecoder/TransDecoder.git"
 
   bottle do
-    cellar :any
-    sha256 "559044bf89f298ede284e3a9f72ef0fc7bd6c912e2b5ee753ceade016370d704" => :yosemite
-    sha256 "fae619c6f41eec60f5bf1bd76af2b110253be8fee275c7610c3bf7ac80873b02" => :mavericks
-    sha256 "549db77a17285d8a616d64e1e6b9baf21e3beb9e424d6427dfce9af43737c30a" => :mountain_lion
-    sha256 "36447454b2c6504477ef1335989cad531efaa4c2032646e6d8356b440625cbaf" => :x86_64_linux
+    cellar :any_skip_relocation
+    sha256 "ce741f3518c5cb58affd3b81448c15e744ebe94aebdd5643b48862cf05834eb2" => :el_capitan
+    sha256 "4a50568376ef0523f282e83df50e022d967c96973cbbefc39facab97c5203f85" => :yosemite
+    sha256 "eff88daefa4b2d0478e396c96f6106d6930cde4a096efad125a2cd544cab1c9c" => :mavericks
+    sha256 "b31a31876895e69dedda9db43f62464c2adbe5e939761fa134f02ebd56b37e09" => :x86_64_linux
   end
 
   depends_on "cd-hit"

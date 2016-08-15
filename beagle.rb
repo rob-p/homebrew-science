@@ -1,32 +1,4 @@
-class CudaRequirement < Requirement
-  build true
-  fatal true
-
-  satisfy { which "nvcc" }
-
-  env do
-    # Nvidia CUDA installs (externally) into this dir (hard-coded):
-    ENV.append "CFLAGS", "-F/Library/Frameworks"
-    # # because nvcc has to be used
-    ENV.append "PATH", which("nvcc").dirname, ":"
-  end
-
-  def message
-    <<-EOS.undent
-      To use this formula with NVIDIA graphics cards you will need to
-      download and install the CUDA drivers and tools from nvidia.com.
-
-          https://developer.nvidia.com/cuda-downloads
-
-      Select "Mac OS" as the Operating System and then select the
-      "Developer Drivers for MacOS" package.
-      You will also need to download and install the "CUDA Toolkit" package.
-
-      The `nvcc` has to be in your PATH then (which is normally the case).
-
-  EOS
-  end
-end
+require File.expand_path("../Requirements/cuda_requirement", __FILE__)
 
 class Beagle < Formula
   desc "Evaluate the likelihood of sequence evolution on trees"
@@ -40,12 +12,14 @@ class Beagle < Formula
 
   bottle do
     cellar :any
-    sha256 "05f6d54c9d2f3485848ac0dd66352c5966537115c542200ff78085160e8a70a4" => :yosemite
-    sha256 "896db76f702251e8a61f34af9d9b8265faf2a607d9090914c0344f5e9cdef17b" => :mavericks
-    sha256 "b9d7a9be41827bbf8134c3a6ae484424993b34a20bc0f776fc5c5c5f4600efc2" => :mountain_lion
-    sha256 "f97ee10fcf7b053d697bd9b806aaba90fda335d8f99daa62c7342e8ad50854f0" => :x86_64_linux
+    revision 1
+    sha256 "8733c60372d50b85751797333a6ab514ecc317f099a1e0d0f8cc441030b349f2" => :el_capitan
+    sha256 "042480e4bf775ca2589450bfa15ae881fd581014edc811d467bc79f73f28f9bf" => :yosemite
+    sha256 "f1e1620257b47fee4b487e36cb9e3ae50a3c279f50c7ea25181fd4dd0bee2d6f" => :mavericks
+    sha256 "cd26ace4ad12f50c5dc4dd58c44739eef6ace01544f7f03927065526402979fa" => :x86_64_linux
   end
 
+  option "with-test", "Run build-time tests"
   option "with-opencl", "Build with OpenCL GPU/CPU acceleration"
 
   depends_on "autoconf" => :build
@@ -60,6 +34,7 @@ class Beagle < Formula
     args = ["--prefix=#{prefix}"]
     args << "--enable-osx-leopard" if MacOS.version <= :leopard
     args << "--with-cuda=#{Pathname(which("nvcc")).dirname}" if build.with? "cuda"
+    args << "--without-cuda" if build.without? "cuda"
     args << "--enable-opencl" if build.with? "opencl"
 
     system "./configure", *args
@@ -71,7 +46,7 @@ class Beagle < Formula
 
     system "make"
     system "make", "install"
-    system "make", "check"
+    system "make", "check" if build.with? "test"
   end
 
   test do

@@ -1,19 +1,19 @@
 class Openimageio < Formula
   desc "Library for reading, processing and writing images"
   homepage "http://openimageio.org"
-  url "https://github.com/OpenImageIO/oiio/archive/Release-1.6.13.tar.gz"
-  sha256 "b2989df4133d84c9b24e2b67ae8780528a49b6c088ce945e15ecefc31235a39b"
-
+  url "https://github.com/OpenImageIO/oiio/archive/Release-1.6.16.tar.gz"
+  sha256 "619592ef04e9fd239e86be79d13f67234a3a0f4c60b3906ba1eeebfc28dddc89"
   head "https://github.com/OpenImageIO/oiio.git"
 
   bottle do
     cellar :any
-    sha256 "62d601333afdc040411a78b45b468ab1e278468efc4d069a8723564386489b40" => :el_capitan
-    sha256 "10459d45ab61b253c3862879dbfa8a9d49ba9022033fb74832a3b64c1bfa1937" => :yosemite
-    sha256 "aa6708c91fa8ef3de1b8254b23983a5c5e5c317e6e353bde056204a2eee3f58e" => :mavericks
+    sha256 "af0b2bcda297795dca9b908a07aaffd12572a6a244a588df0376b6072d65b871" => :el_capitan
+    sha256 "9991b4800b4048284221c8a3a20bcf968f196dfd6224478cfc0cdc455afc8c47" => :yosemite
+    sha256 "77a82cb6db1df3381c99041be4af7c7721aeafc984a014f79c9deff87e9f9118" => :mavericks
   end
 
   option "with-test", "Dowload 95MB of test images and verify Oiio (~2 min)"
+  option "with-qt", "Build with qt support, neccessary for iv image viewer"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
@@ -24,7 +24,6 @@ class Openimageio < Formula
   depends_on "field3d"
   depends_on "freetype"
   depends_on "giflib"
-  depends_on "glew"
   depends_on "hdf5"
   depends_on "ilmbase"
   depends_on "jpeg"
@@ -36,6 +35,8 @@ class Openimageio < Formula
   depends_on "webp"
   depends_on "opencv" => :recommended
   depends_on :python3 => :optional
+
+  depends_on "glew" if build.with? "qt"
 
   depends_on "boost-python" => (build.with?("python3") ? ["with-python3"] : [])
 
@@ -88,12 +89,19 @@ class Openimageio < Formula
       chdir "localpub"
     end
 
+    # May require a revision bump if the glew version changes
+    inreplace "src/cmake/externalpackages.cmake", "GLEW_VERSION 1.5.1", "GLEW_VERSION 2.0.0" if build.with? "qt"
+
     ENV.append "MY_CMAKE_FLAGS", "-Wno-dev" # stops a warning.
-    ENV.append "MY_CMAKE_FLAGS", "-DOPENJPEG_INCLUDE_DIR=#{Formula["openjpeg"].opt_include}/openjpeg-1.5"
-    ENV.append "MY_CMAKE_FLAGS", "-DFREETYPE_INCLUDE_DIRS=#{Formula["freetype"].opt_include}/freetype2"
     ENV.append "MY_CMAKE_FLAGS", "-DUSE_OPENCV=OFF" if build.without? "opencv"
     ENV.append "MY_CMAKE_FLAGS", "-DCMAKE_FIND_FRAMEWORK=LAST"
     ENV.append "MY_CMAKE_FLAGS", "-DCMAKE_VERBOSE_MAKEFILE=ON"
+
+    # Explicilty disable CMake modules to prevent undeclared dependencies
+    ENV.append "MY_CMAKE_FLAGS", "-DUSE_FFMPEG=OFF"
+    ENV.append "MY_CMAKE_FLAGS", "-DUSE_JPEGTURBO=OFF"
+    ENV.append "MY_CMAKE_FLAGS", "-DUSE_LIBRAW=OFF"
+    ENV.append "MY_CMAKE_FLAGS", "-DUSE_PTEX=OFF"
 
     # CMake picks up the system's python dylib, even if we have a brewed one.
     # Code taken from the Insighttoolkit formula
@@ -134,15 +142,21 @@ class Openimageio < Formula
       resource("oiioimages").stage { (d+"oiio-images").install Dir["*"] }
     end
 
-    # make is a shell wrapper for cmake crafted by the devs.
-    args << "USE_OPENGL=" + (build.with?("qt") ? "1" : "0")
-    args << "USE_PYTHON3=1" if build.with? :python3
+    if build.with? "qt"
+      args << "USE_OPENGL=ON"
+      args << "USE_QT=ON"
+    else
+      args << "USE_OPENGL=OFF"
+      args << "USE_QT=OFF"
+    end
+
+    args << "USE_PYTHON3=ON" if build.with? "python3"
 
     system "make", *args
     system "make", "test" if build.with? "test"
     cd "dist/macosx" do
       (lib/"python#{pyver}").install "python"
-      (lib/"python#{py3ver}").install "python3" if build.with? :python3
+      (lib/"python#{py3ver}").install "python3" if build.with? "python3"
       prefix.install %w[bin include]
       lib.install Dir["lib/lib*"]
       doc.install "doc/openimageio.pdf"

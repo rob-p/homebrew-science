@@ -1,15 +1,14 @@
 class Flann < Formula
-  desc "FLANN - Fast Library for Approximate Nearest Neighbors"
+  desc "Fast Library for Approximate Nearest Neighbors"
   homepage "http://www.cs.ubc.ca/~mariusm/index.php/FLANN/FLANN"
-  url "http://people.cs.ubc.ca/~mariusm/uploads/FLANN/flann-1.8.4-src.zip"
-  sha256 "dfbb9321b0d687626a644c70872a2c540b16200e7f4c7bd72f91ae032f445c08"
-  revision 1
+  url "https://github.com/mariusmuja/flann/archive/1.9.1.tar.gz"
+  sha256 "b23b5f4e71139faa3bcb39e6bbcc76967fbaf308c4ee9d4f5bfbeceaa76cc5d3"
 
   bottle do
     cellar :any
-    sha256 "ca40319fa78946b322841b9ce208f5c10e28e03e5a4913cd270538b80ee78b2e" => :yosemite
-    sha256 "fa19463e2515be50e21b6204ffef67ae6147ba9adcc609aefcfc37a541cdcb0a" => :mavericks
-    sha256 "1c403208c33bfef7484d1adc23438b293aff7cd49f54c41f8fd821fb66658e92" => :mountain_lion
+    sha256 "937754af8db489e4429bbb281bc445134cf6bf1b48cdb0b8ee43041215bc1251" => :el_capitan
+    sha256 "4301fdc186677b7c1355d16f81cc0b9675ed9e08045dcaa65867cfe95dab8067" => :yosemite
+    sha256 "e44a09404a4f22142bd497a2f0e336b45d241f5e0ddeca10cfb2a5631d152eb7" => :mavericks
   end
 
   deprecated_option "enable-matlab" => "with-octave"
@@ -17,6 +16,8 @@ class Flann < Formula
 
   option "with-octave", "Enable Matlab/Octave bindings"
   option "without-examples", "Do not build and install example binaries"
+  option "with-openmp", "Build with OpenMP support"
+  needs :openmp if build.with? "openmp"
 
   depends_on "cmake" => :build
   depends_on "hdf5"

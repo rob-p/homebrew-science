@@ -1,26 +1,34 @@
 class Bcalm < Formula
-  desc "de Bruijn CompAction in Low Memory"
-  homepage "https://github.com/Malfoy/bcalm"
-  # doi "10.1007/978-3-319-05269-4_4"
+  desc "de Bruijn graph compaction in low memory"
+  homepage "https://github.com/GATB/bcalm"
+  # doi "10.1093/bioinformatics/btw279"
   # tag "bioinformatics"
 
-  url "https://github.com/Malfoy/bcalm/archive/2.tar.gz"
-  sha256 "dc50883d2b24bcd13abbc731211ea28f0eef4bd45a91bb24c0641b1ece80c9ce"
+  url "https://github.com/GATB/bcalm/releases/download/v2.0.0/bcalm-2.0.0.zip"
+  sha256 "6d1d1d8b3339fff7cd0ec04b954a30e49138c1470efbcbcbf7b7e91f3c5b6d18"
 
-  head "https://github.com/Malfoy/bcalm.git"
+  head "https://github.com/GATB/bcalm.git"
 
   bottle do
-    cellar :any_skip_relocation
-    sha256 "275e8b52ba361c7b709bea9ad8d321cd72c3771d76fabe86054cea9c7dfbf9a9" => :el_capitan
-    sha256 "6850356f860b9e9a52f97303b64fa8d63c32d9448df7961ccce17decbd383c8a" => :yosemite
-    sha256 "35e0e2996bb345741d4c74165664df68e10507d9b007afd41e5a886a08f845ce" => :mavericks
-    sha256 "d7dcaebe036421cac51f91f5962d13b442b5b9afb52605c4e48ff2212fe2bdbd" => :x86_64_linux
+    sha256 "8dd755580072b0300c2c7c5fb1220c87c00f2d6c0267c9f0e435f8529c7c50d1" => :el_capitan
+    sha256 "615881b3cf75e5411969cfd0aa04de7fe12c077e5945c3f5eee18e7c8ebe49b4" => :yosemite
+    sha256 "f5a5a290258b96961aecbcda585cb6fffbee76791d12a566fd98b9c8d302fa93" => :mavericks
+    sha256 "3959eb47b21409e0e2e9e21115bf0b0bb5552382afbe78a9b7f2791a037fcdbe" => :x86_64_linux
   end
 
+  depends_on "cmake" => :build
+
   def install
-    ENV.libcxx
-    system "make"
-    bin.install "bcalm"
+    mkdir "build" do
+      system "cmake", "..", *std_cmake_args
+      system "make"
+      bin.install "bcalm", "bglue"
+    end
     doc.install "README.md"
+  end
+
+  test do
+    system bin/"bcalm"
+    system bin/"bglue"
   end
 end

@@ -1,17 +1,19 @@
 class Gubbins < Formula
   desc "Detect recombinations in Bacteria"
   homepage "https://github.com/sanger-pathogens/gubbins"
-  url "https://github.com/sanger-pathogens/gubbins/archive/v1.4.7.tar.gz"
-  sha256 "6fdc2798a271114f8126d16e09bf6a1da2a616c7decdaeb436633629859fbfce"
+  url "https://github.com/sanger-pathogens/gubbins/archive/v2.1.0.tar.gz"
+  sha256 "27d9d26febf8858e038d91d32ec8736d61644e13069c1cc81b8315eb7b32318f"
+  revision 1
+
   head "https://github.com/sanger-pathogens/gubbins.git"
   # tag "bioinformatics"
   # doi "10.1093/nar/gku1196"
 
   bottle do
     cellar :any
-    sha256 "5d1a874fa5e761f5fa2110a8e727340ef138be9943efffc93337f32317c1347e" => :el_capitan
-    sha256 "d84be7b8a8350bf8e362881c5a44c8bb039debde07118dd216a4512cc6ff6808" => :yosemite
-    sha256 "ae6214169a4793b45e1b8354bd7748f0dec0031f64ef8d5adad61fe969e28b1d" => :mavericks
+    sha256 "a52959de7545e02d8844a5fb6b5c42f85119c855b5301ca4549e9f8c31176c74" => :el_capitan
+    sha256 "169d4b3a81f31837eb3a4c060665a076ca774ec227c30ec95e6e6743f5f2de65" => :yosemite
+    sha256 "339b20bfe245bb177a58a0b951c0e2c936e29aa9c52922f380bad83939de09f8" => :mavericks
   end
 
   depends_on "autoconf"  => :build
@@ -19,31 +21,30 @@ class Gubbins < Formula
   depends_on "libtool"   => :build
   depends_on "check"     => :build
   depends_on :python3
-  depends_on "homebrew/python/numpy" => ["with-python3"]
-  depends_on "homebrew/python/pillow" => ["with-python3"]
+  depends_on "homebrew/python/numpy" => ["with-python3", "without-python"]
+  depends_on "homebrew/python/pillow" => ["with-python3", "without-python"]
   depends_on "zlib" unless OS.mac?
   depends_on "raxml"
   depends_on "fasttree" => ["with-double", :recommended]
-  depends_on "fastml"   => :recommended
 
   resource "biopython" do
-    url "https://pypi.python.org/packages/source/b/biopython/biopython-1.66.tar.gz"
-    sha256 "171ad726f50528b514f9777e6ea54138f6e35792c5b128c4ab91ce918a48bbbd"
+    url "https://pypi.python.org/packages/f4/35/67d779f52870770c228f9edd0c9d1d1b9bc11afad794e220295d7b88a804/biopython-1.67.tar.gz"
+    sha256 "1ab322fe4d2f79d2d999c9d8faf8b4e0b4c41c4e8b5f0a97912dfa0e3aa249e6"
   end
 
   resource "dendropy" do
-    url "https://pypi.python.org/packages/source/D/DendroPy/DendroPy-4.0.3.tar.gz"
-    sha256 "a2c074eb91e2866120521c076587983900c5b312879832c3559effb730bd4465"
+    url "https://pypi.python.org/packages/65/3a/19556a58c560de488dffbf3c7fe7c9ed34c1a6223f0dfe971224a42aaf39/DendroPy-4.1.0.tar.gz"
+    sha256 "c3d4b2780b84fb6ad64a8350855b2d762cabe45ecffbc04318f07214ee3bdfc9"
   end
 
   resource "nose" do
-    url "https://pypi.python.org/packages/source/n/nose/nose-1.3.7.tar.gz"
+    url "https://pypi.python.org/packages/58/a5/0dc93c3ec33f4e281849523a5a913fa1eea9a3068acfa754d44d88107a44/nose-1.3.7.tar.gz"
     sha256 "f1bffef9cbc82628f6e7d7b40d7e255aefaa1adb6a1b1d26c69a8b79e6208a98"
   end
 
   resource "reportlab" do
-    url "https://pypi.python.org/packages/source/r/reportlab/reportlab-3.2.0.tar.gz"
-    sha256 "72e687662bd854776407b9108483561831b45546d935df8b0477708199086293"
+    url "https://pypi.python.org/packages/b8/17/7c5342dfbc9dc856173309270006e34c3bfad59934f0faa1dcc117ac93f1/reportlab-3.3.0.tar.gz"
+    sha256 "f48900b9321bcb2871a46543993bd995148d769a11a9e24495f25b4ec0bbe267"
   end
 
   def install
@@ -82,8 +83,8 @@ class Gubbins < Formula
   end
 
   test do
-    assert_match "recombinations", shell_output("gubbins -h 2>&1", 0)
-    assert_match "Rapid", shell_output("run_gubbins.py -h 2>&1", 0)
-    assert_match "tree", shell_output("gubbins_drawer.py -h 2>&1", 0)
+    assert_match "recombinations", shell_output("#{bin}/gubbins -h 2>&1")
+    assert_match "Rapid", shell_output("#{bin}/run_gubbins.py -h 2>&1")
+    assert_match "tree", shell_output("#{bin}/gubbins_drawer.py -h 2>&1")
   end
 end

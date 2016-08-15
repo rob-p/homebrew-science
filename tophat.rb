@@ -1,16 +1,21 @@
 class Tophat < Formula
+  desc "Spliced read mapper for RNA-Seq"
   homepage "http://ccb.jhu.edu/software/tophat"
-  url "http://ccb.jhu.edu/software/tophat/downloads/tophat-2.0.14.tar.gz"
-  sha256 "547c5c9d127cbf7d61bc73c4251ff98a07d57e59b3718666a18b58acfb8fcfbf"
+  url "http://ccb.jhu.edu/software/tophat/downloads/tophat-2.1.1.tar.gz"
+  sha256 "37840b96f3219630082b15642c47f5ef95d14f6ee99c06a369b08b3d05684da5"
+  # doi "10.1093/bioinformatics/btp120"
+  # tag "bioinformatics"
+  revision 1
 
   bottle do
     cellar :any
-    sha256 "73296a1c7563a896cd80448424bd2406df4c28961d0ca4911b455602bfbfa829" => :yosemite
-    sha256 "262b03db609f12566948e21ad2cf38c7b9c272650d707b49b1630577cf815979" => :mavericks
-    sha256 "3735a997a3ff8e64534a1febb43b353b42e49c92414db86218f77626ce82c7da" => :mountain_lion
+    sha256 "7c8cd03f1b5429a9458f23c3e89c1ca70a3bb66f86ea99830da78f6ca7df3060" => :el_capitan
+    sha256 "9018f5952a79235bd3955522ac46ab0e94cbd489ec802f9295c24bd85ab204dd" => :yosemite
+    sha256 "acd66232b41070f1fd1d5901a63f7306cbdb7793a7036c67b31a887c5be019dd" => :mavericks
+    sha256 "a4aaf9f979f98b0c6e07cbf9eec6b334da8a08fb31e42170e6a5b46623300f1c" => :x86_64_linux
   end
 
-  depends_on "boost" => :build
+  depends_on "boost"
   depends_on "bowtie2"
   depends_on "bowtie" => :optional
 
@@ -30,13 +35,20 @@ class Tophat < Formula
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}"
     system "make", "install"
+
+    # clean up Python libraries from bin
+    (libexec/"python").install bin/"intervaltree", bin/"sortedcontainers"
+    (libexec/"bin").install bin/"tophat-fusion-post"
+    (bin/"tophat-fusion-post").write_env_script libexec/"bin/tophat-fusion-post",
+      :PYTHONPATH => libexec/"python"
   end
 
   test do
     system bin/"tophat", "-r", "20",
       share/"test_data/test_ref",
       share/"test_data/reads_1.fq", share/"test_data/reads_2.fq"
-    assert File.read("tophat_out/align_summary.txt").include?("71.0%")
+    assert_match "71.0%", File.read("tophat_out/align_summary.txt")
+    system bin/"tophat-fusion-post", "--version"
   end
 end
 __END__
@@ -51,4 +63,3 @@ __END__
  	{																	\
  		type_t *i, *j, swap_tmp;										\
  		for (i = s + 1; i < t; ++i)										\
-

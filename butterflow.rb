@@ -1,15 +1,14 @@
 class Butterflow < Formula
   desc "Makes fluid slow motion and motion interpolated videos"
   homepage "https://github.com/dthpham/butterflow"
-  url "http://srv.dthpham.me/butterflow/butterflow-0.2.0.tar.gz"
-  sha256 "dc70927d78193543b4b364573e0cf2d0881a54483aa306db51cd9f57cf23781e"
-  revision 2
+  url "http://srv.dthpham.me/butterflow/butterflow-0.2.1.tar.gz"
+  sha256 "66cd8964854eae5b5b66b031e2f038d87a38c9052d19793820d55e1fe6338ffe"
 
   bottle do
     cellar :any
-    sha256 "4874a72d9625d7b509c6fdf79ddc77548b18168554118bf56979a3160cb5c095" => :el_capitan
-    sha256 "27d69b0885c38a457a80ff22cdb06b1bf44b05acdd78f559090de807ecd42b04" => :yosemite
-    sha256 "06cb9b8b194f058c8c242a28d52315b016077fc7916b89c6096302dade88e07a" => :mavericks
+    sha256 "1c881f24932b1297bd1a0688e95a1378be35af0caaa5c466d8819ca1ed2b2797" => :el_capitan
+    sha256 "285236c600d5ba279d86e99d58f3b51c1919d2cec4b7ccddea403de3dd812d7d" => :yosemite
+    sha256 "1045fcdbe901d48b104163413a08b5092041b14b0249523dda553b48ba051bd0" => :mavericks
   end
 
   # To satisfy OpenCL 1.2 requirement

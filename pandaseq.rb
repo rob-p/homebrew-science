@@ -1,24 +1,24 @@
 class Pandaseq < Formula
+  desc "PAired-eND Assembler for DNA sequences"
   homepage "https://github.com/neufeld/pandaseq"
   # doi "10.1186/1471-2105-13-31"
   # tag "bioinformatics"
 
-  url "https://github.com/neufeld/pandaseq/archive/v2.8.1.tar.gz"
-  sha256 "9f90fc178de605d0eb931d2493872e0f61a0e5d97b73c539f8152b331996327e"
+  url "https://github.com/neufeld/pandaseq/archive/v2.10.tar.gz"
+  sha256 "93cd34fc26a7357e14e386b9c9ba9b28361cf4da7cf62562dc8501e220f9a561"
 
   head "https://github.com/neufeld/pandaseq.git"
 
   bottle do
-    sha256 "b8074161853044a591afc97ee5a99110c2a1208fd6bb93ddc561319bdf7a7598" => :yosemite
-    sha256 "c515d863dc15f1ef89c6fdd4a861fa0314a062cb092881deedff33250db1aec7" => :mavericks
-    sha256 "1c6d0cc30417723362c8b8a0a40f3710f7de64cac04ee8a8026561a8282b12a6" => :mountain_lion
-    sha256 "41d6205243f70ea83d77c93beea2e573364346e72fdd3bd638cdb28fe6eb1ddc" => :x86_64_linux
+    sha256 "86a784352c9eed0019160559fca1fd8e04a65375b5ca3496ba46140cecd4eaa3" => :el_capitan
+    sha256 "4483d73f7dcc06bed9fd3a7e1c917dfdd8417c360cc4646235f4a54169869749" => :yosemite
+    sha256 "d64c18e007b5b89440cb678c93f6ac386e0195b51c162cc63bae857cc8b31c25" => :mavericks
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
-  depends_on "libtool" => :build
   depends_on "pkg-config" => :build
+  depends_on "libtool" => :run
   depends_on "zlib" unless OS.mac?
 
   def install
@@ -32,6 +32,6 @@ class Pandaseq < Formula
   end
 
   test do
-    system "#{bin}/pandaseq -h 2>&1 |grep pandaseq"
+    assert_match version.to_s, shell_output("#{bin}/pandaseq -v 2>&1", 1)
   end
 end

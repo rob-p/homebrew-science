@@ -4,16 +4,16 @@ class Mash < Formula
   # tag "bioinformatics"
   # doi "10.1101/029827"
 
-  url "https://github.com/marbl/Mash/archive/v1.0.1.tar.gz"
-  sha256 "4ef85ea799e2beb27b21248864f74c617c78f075c1c2e4599bddcda4815e58d0"
+  url "https://github.com/marbl/Mash/archive/v1.1.tar.gz"
+  sha256 "ef79c5e1dbfe64c289a2bd1f5afa272041508500e1f28353aef8bd12fe5dc41d"
 
   head "https://github.com/marbl/Mash.git"
 
   bottle do
     cellar :any
-    sha256 "fc91a72acfaefca83116979a98fba390b691605083af11912119fcb26525f45a" => :el_capitan
-    sha256 "efad6350d15d14a8f12f15ca639116aa89cb462e7901c1939e15fe1c845408c1" => :yosemite
-    sha256 "6a5d522da7d690dd230a55dff793d1a60c305f20bc6a277e72141f97a4377181" => :mavericks
+    sha256 "4a2f551a2ef6e9e3d1b000e6aff11f50577f0aca0059df0a6156ac7d7f866d6f" => :el_capitan
+    sha256 "4f3aa78846e4ca05e350a3e1b1922c9ec2cac83e6604979ed0149d6fc06a002f" => :yosemite
+    sha256 "d8a1d9928e64b59cc38e1674cc8564f96a262f8b2d43fef00351cc19fa8b7768" => :mavericks
   end
 
   needs :cxx11
@@ -36,6 +36,6 @@ class Mash < Formula
   end
 
   test do
-    assert_match "Estimate the distance", shell_output("mash -h 2>&1", 0)
+    assert_match "Estimate the distance", shell_output("#{bin}/mash -h 2>&1", 0)
   end
 end
