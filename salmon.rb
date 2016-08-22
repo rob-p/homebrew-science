@@ -3,8 +3,8 @@ class Salmon < Formula
   homepage "https://github.com/COMBINE-lab/salmon"
   # tag "bioinformatics"
 
-  url "https://github.com/COMBINE-lab/salmon/archive/v0.7.0.tar.gz"
-  sha256 "b0c30941814760095d6d302f7c3c74be0fc098c2851ff0fd58dd171ed1f8b4d8"
+  url "https://github.com/COMBINE-lab/salmon/archive/v0.7.1.tar.gz"
+  sha256 "2ff6689a1d675366342881836fa47c12eac998c6a382aa55a3be99a09cd885dc"
 
   head "https://github.com/COMBINE-lab/salmon.git"
 
