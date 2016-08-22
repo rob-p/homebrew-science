@@ -30,6 +30,13 @@ class Salmon < Formula
     # Fix error: Unable to find the requested Boost libraries.
     ENV.deparallelize
 
+    # Fix wonky clang reporting itself as GCC
+    if ENV.compiler == :clang && MacOS.version <= :mavericks
+        inreplace "include/concurrentqueue.h",
+            "typedef ::max_align_t max_align_t",
+            "typedef std::max_align_t max_align_t"
+    end
+
     system "cmake", ".", *std_cmake_args
     system "make", "install"
   end
