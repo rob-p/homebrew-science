@@ -4,7 +4,7 @@ class Salmon < Formula
   # tag "bioinformatics"
 
   url "https://github.com/COMBINE-lab/salmon/archive/v0.8.2.tar.gz"
-  sha256 "b004082b27a3056df0b9d05eb5622107846e45cfa056257a95f71fae723d9654"
+  sha256 "299168e873e71e9b07d63a84ae0b0c41b0876d1ad1d434b326a5be2dce7c4b91"
 
   head "https://github.com/COMBINE-lab/salmon.git"
 
