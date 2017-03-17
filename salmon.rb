@@ -23,6 +23,7 @@ class Salmon < Formula
   depends_on "automake" => :build
   depends_on "cmake" => :build
   depends_on "boost"
+  depends_on "jemalloc"
   depends_on "tbb"
   depends_on "xz"
   depends_on "zlib" unless OS.mac?
